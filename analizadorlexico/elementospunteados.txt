@@ -1,0 +1,301 @@
+cerradura{
+  identifier-> letra(letra|digito)*,
+  int_lit -> digito([_]?digito)*,
+  float_lit -> (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  string_lit -> '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*" 
+}={
+  •letra(letra|digito)*,
+  •digito([_]?digito)*,
+  (((•int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*•.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(•int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(•int_lit)+(([eE][+-]?int_lit+)),
+  •'((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|•"((\[xnort"'\])*(~[\"])*)*"
+}=q1
+
+goto(q1,letra)={
+  letra(•letra|digito)*,
+  letra(letra|•digito)*,
+  letra(letra|digito)•*
+}=q2
+
+goto(q2,letra)={
+  letra(•letra|digito)*,
+  letra(letra|•digito)*,
+  letra(letra|digito)•*
+}=q2
+
+goto(q2,digito)={
+  letra(•letra|digito)*,
+  letra(letra|•digito)*,
+  letra(letra|digito)•*
+}=q2
+
+goto(q1,digito)={
+  digito(•[_]?digito)*,
+  digito([_]?•digito)*,
+  digito([_]?digito)*•,
+  (((int_lit)*•.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((•int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+•.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(•int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+((•[eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(•int_lit)+(([eE][+-]?int_lit+)),
+}=q3
+
+goto(q3,digito)={
+  digito(•[_]?digito)*,
+  digito([_]?•digito)*,
+  digito([_]?digito)*•,
+  (((int_lit)*•.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((•int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+•.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(•int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+((•[eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(•int_lit)+(([eE][+-]?int_lit+)),
+}=q3
+
+goto(q3,_)={
+  digito([_]?•digito)*
+}=q4
+
+goto(q4,digito)={
+  digito(•[_]?digito)*,
+  digito([_]?•digito)*,
+  digito([_]?digito)*•,
+  (((int_lit)*•.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((•int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+•.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(•int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+((•[eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(•int_lit)+(([eE][+-]?int_lit+)),
+}=q3
+
+goto(q1,.)={
+  (((int_lit)*.(•digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q5
+
+goto(q5,digito)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)(•[eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(•digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•
+}=q6
+
+goto(q6,digito)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)(•[eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(•digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•
+}=q6
+
+goto(q3,.)={
+  (((int_lit)*.(•digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(•digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)(•[eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q7
+
+goto(q7,digito)={
+  (((int_lit)*.(•digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(•digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)(•[eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q7
+
+goto(q3,E)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE]•[+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?•int_lit+)),
+}=q8
+
+goto(q3,e)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE]•[+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?•int_lit+)),
+}=q8
+
+goto(q8,+)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?•int_lit+)),
+}=q9
+
+goto(q8,-)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?•int_lit+)),
+}=q9
+
+goto(q9,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q10
+
+goto(q8,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q10
+
+goto(q10,_)={
+  de la parte de int_lit
+    digito([_]?•digito)*,
+}=q11
+
+goto(q11,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q10
+
+goto(q10,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q10
+
+goto(q6,E)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE]•[+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q12
+
+goto(q6,e)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE]•[+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q12
+
+goto(q12,+)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q13
+
+goto(q12,-)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q13
+
+goto(q12,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,  
+}=q14
+
+goto(q13,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•, 
+}=q14
+
+goto(q14,_)={
+  de la parte de int_lit
+    digito([_]?•digito)*,
+}=q15
+
+goto(q14,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q14
+
+goto(q15,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q14
+
+goto(q7,E)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE]•[+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q16
+
+goto(q7,e)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE]•[+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q16
+
+goto(q16,+)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q17
+
+goto(q16,-)={
+  (((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?•int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+)),
+}=q17
+
+goto(q16,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q18
+
+goto(17,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q18
+
+goto(q18,_)={
+  de la parte de int_lit
+    digito([_]?•digito)*,
+}=q19
+
+goto(q19,digito)={
+  de la parte de int_lit
+    digito(•[_]?digito)*,
+    digito([_]?•digito)*,
+    digito([_]?digito)*•->(((int_lit)*.(digito)+|(int_lit)+.(digito)*)([eE][+-]?int_lit+)?)|(int_lit)+(([eE][+-]?int_lit+))•,
+}=q18
+
+goto(q1,')={
+  '((•\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(•~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*•'|"((\[xnort"'\])*(~[\"])*)*"
+}=q20
+
+goto(q20,\)={
+  '((\•[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*"
+}=q21
+
+goto(q21,[xnort"'\])={
+  '((•\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(•~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*•'|"((\[xnort"'\])*(~[\"])*)*"
+}=q20
+
+goto(q20,todo menos [\'])={
+  '((•\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(•~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*•'|"((\[xnort"'\])*(~[\"])*)*"
+}=q20
+
+goto(q20,')={
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*"•
+}=q22
+
+goto(q1,")={
+  '((\[xnort"'\])*(~[\'])*)*'|"((•\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(•~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*•"
+}=q23
+
+goto(q23,\)={
+  '((\[xnort"'\])*(~[\'])*)*'|"((\•[xnort"'\])*(~[\"])*)*"
+}=q24
+
+goto(q24,[xnort"'\])={
+  '((\[xnort"'\])*(~[\'])*)*'|"((•\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(•~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*•"
+}=q23
+
+goto(q23,todo menos [\'])={
+  '((\[xnort"'\])*(~[\'])*)*'|"((•\[xnort"'\])*(~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(•~[\"])*)*",
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*•"
+}=q23
+
+goto(q23,')={
+  '((\[xnort"'\])*(~[\'])*)*'|"((\[xnort"'\])*(~[\"])*)*"•
+}=q25
