@@ -1,3 +1,14 @@
+/*
+Autores:      Cabrera Gaytán Jazmín Andrea
+              Camacho Morales Gerardo Iván
+
+              Lázaro Martínez Abraham Josué
+              Oropeza Castañeda Ángel Eduardo
+
+Versión:      1
+Fecha:        13 de noviembre de 2020
+Nombre:       Implementación del analizador léxico
+*/
 import java.util.*;
 
 %%
@@ -5,10 +16,13 @@ import java.util.*;
 %class Lexer
 %int 
 %eofval{
+  //Al encontrar el fin de archivo, regresa un valor 0
   return 0;
 %eofval}
 
 %{
+//Definición de constantes para definir que número regresará el 
+//analizador para cada token
 private static final int PACKAGE=1;
 private static final int VAR=2;
 private static final int CONST=3;
@@ -229,4 +243,4 @@ COMA=","
 {PUNTOYCOMA} {return PUNTOYCOMA;}
 {COMA} {return COMA;}
 
-. {System.out.println("Error "+yytext());}
+. {return -1;}
