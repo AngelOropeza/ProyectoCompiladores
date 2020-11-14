@@ -1,7 +1,7 @@
 /*
 Autores:      Cabrera Gaytán Jazmín Andrea
               Camacho Morales Gerardo Iván
-
+              Nicolas Marin Brian Geovanny
               Lázaro Martínez Abraham Josué
               Oropeza Castañeda Ángel Eduardo
 
