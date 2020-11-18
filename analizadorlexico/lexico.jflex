@@ -161,6 +161,8 @@ DIR="&"
 INCREMENTO="++"
 DECREMENTO="--"
 ASIGNACION="="
+
+//PUNTUACIÓN 
 P1="("
 P2=")"
 C1="["
