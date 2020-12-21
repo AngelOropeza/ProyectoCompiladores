@@ -1,3 +1,15 @@
+/*
+Autores:      Cabrera Gaytán Jazmín Andrea
+              Camacho Morales Gerardo Iván
+              Nicolas Marin Brian Geovanny
+              Lázaro Martínez Abraham Josué
+              Oropeza Castañeda Ángel Eduardo
+
+Versión:      1
+Fecha:        20 de diciembre de 2020
+Nombre:       lexico.jflex
+*/
+
 import java.util.ArrayList;
 import java.io.IOException;
 
@@ -108,7 +120,7 @@ public class Parser{
   E → U E’
   E’ → + U E’ | - U E’ | ε
   U  → F U’
-  U’  → * F U’ | / F U’ | % F U’
+  U’  → * F U’ | / F U’ | % F U’ | ε
   F → (E) | id | num
 
   */

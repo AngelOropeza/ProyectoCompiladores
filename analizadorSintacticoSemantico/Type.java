@@ -1,3 +1,11 @@
+/*
+Autores:      Lázaro Martínez Abraham Josué
+              Oropeza Castañeda Ángel Eduardo
+
+Versión:      1
+Fecha:        20 de diciembre de 2020
+Nombre:       lexico.jflex
+*/
 public class Type{
   int id;
   String type;
