@@ -1,0 +1,7 @@
+int a,hola,contador;
+float[3][8][5] b,c;
+a = 10;
+a = a * 10 + 15 - 0;
+contador = 1;
+contador = contador +1;
+hola = (contador * 15)/10;
