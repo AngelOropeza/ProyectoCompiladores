@@ -69,6 +69,8 @@ public class Parser{
   private Lexer analizadorLexico;
   private int tokenActual;
   private int dir;
+
+  // cambiar estos atributos, generar una clase para cada tabla
   private ArrayList<Symbol> tablaSimbolos;
   private ArrayList<Type> tablaTipos;
 
@@ -79,29 +81,162 @@ public class Parser{
     dir = 0;
     tokenActual = analizadorLexico.yylex();
     // llenamos la tabla de tipos
-    tablaSimbolos = new ArrayList<Symbol>();
-    tablaTipos = new ArrayList<Type>();
-
-    tablaTipos.add(new Type(0, "int", 2, -1, -1));
-    tablaTipos.add(new Type(1, "float", 4, -1, -1));
-    tablaTipos.add(new Type(2, "char", 1, -1, -1));
-    tablaTipos.add(new Type(3, "double", 8, -1, -1));
-    //tablaTipos.add(new Type(1, "void", 4, -1, -1));
   }
 
   // método que inicia
   public void parse() throws IOException,Exception{
-    printTT();
-    printTS();
-  }
 
+  }
 
   /*
 
-  Aquí va el parser recursivo
+    ANDREA *************************************************
 
   */
+  /*
 
+    IVAN *************************************************
+
+  */
+  /*
+
+    BRIAN *************************************************
+
+  */
+  /*
+
+    ANGEL *************************************************
+
+  */
+  /*
+
+    LAZARO *************************************************
+
+  */
+  private void term(){
+    unario();
+    term_p();
+  }
+
+  private void term_p(){
+    switch(tokenActual){
+      case MULTI:
+        eat(MULTI);
+        unario();
+        term_p();
+        break;
+      case DIVISION:
+        eat(DIVISION);
+        unario();
+        term_p();
+        break;
+      case MODULO:
+        eat(MODULO);
+        unario();
+        term_p();
+        break;
+      default:
+        // aquí entra en producción vacía
+        break;
+    }
+  }
+
+  private void unario(){
+    switch(tokenActual){
+      case NEGACION:
+        eat(NEGACION);
+        unario();
+        break;
+      case RESTA:
+        eat(RESTA);
+        unario();
+        break;
+      default:
+        factor();
+    }
+  }
+
+  private void factor(){
+    switch(tokenActual){
+      //(bool)
+      case P1:
+        eat(P1);
+        bool();
+        eat(P2);
+        break;
+      //localización
+      //id(parametros)
+      case IDENTIFIER:
+        id = analizadorLexico.yytext();
+        eat(IDENTIFIER);
+        if(tokenActual!=P1){
+          localizacion();
+        }
+        eat(P1)};
+        parametros();
+        break:
+      // número
+      case INT_LIT:
+        eat(INT_LIT);
+        break;
+      case FLOAT_LIT:
+        eat(FLOAT_LIT);
+        break;
+      // cadena
+      case STRING_LIT:
+        eat(STRING_LIT);
+        break;
+      //true
+      case TRUE:
+        eat(TRUE);
+        break;
+      //false
+      case FALSE:
+        eat(FALSE);
+        break;
+      default:
+        error("Error de sintaxis");
+    }
+  }
+
+  private void parametros(){
+    if(tokenActual==OR){
+      lista_param();
+    }
+    // producción vacía
+  }
+
+  private void lista_param(){
+    bool();
+    lista_param_p();
+  }
+
+  private void lista_param_p(){
+    if(tokenActual==COMA){
+      eat(COMA);
+      bool();
+      lista_param_p();
+    }
+    // producción vacía
+  }
+
+  private void localizacion(){
+    if(tokenActual==IDENTIFIER){
+      eat(IDENTIFIER);
+      localizacion_p();
+    }
+    error("Error de sintaxis, se esperaba un identificador");
+  }
+
+  private void localizacion_p(){
+    if(tokenActual==C1){
+      eat(C1);
+      bool();
+      eat(C2);
+      localizacion_p();
+    }
+    // producción vacía
+  }
   // MÉTODOS DE AYUDA
 
   // Método para avanzar de token
@@ -120,58 +255,6 @@ public class Parser{
   // Método que muestra la existencia de un error
   private void error(String mensaje) throws Exception{
     throw new Exception(mensaje+", línea "+analizadorLexico.getYyline()+"\n"+analizadorLexico.linea);
-  }
-
-  // Método que nos regresa el tamaño de un tipo de dato
-  private int getTam(int id){
-    for(Type t: tablaTipos){
-      if(id == t.id){
-        return t.tam;
-      }
-    }
-    return -1;
-  }
-
-  // Método que nos regresa el tipo de dato de un identificador
-  private int getTipo(String id){
-    for(Symbol s: tablaSimbolos){
-      if(s.id.equals(id)){
-        return s.type;
-      }
-    }
-    return -1;
-  }
-
-  // Método que revisa si una variable ya se encuentra declarada
-  private boolean buscar(String id){
-    for(Symbol s: tablaSimbolos){
-      if(s.id.equals(id)){
-        return true;
-      }
-    }
-    return false;
-  }
-
-  // MÉTODOS PARA DEBUGGEAR
-  
-  // imprime la tabla de tipos
-  private void printTT(){
-    System.out.println("Tabla de tipos");
-    System.out.println("id\ttipo\ttam\t#e\tTipoBase");
-    for(Type t: tablaTipos){
-      System.out.println(t.id+"\t"+t.type+"\t"+t.tam+"\t"+t.elem+"\t"+t.tipoBase);
-    }
-  }
-
-  // imprime la tabla de simbolos
-  private void printTS(){
-    int i=0;
-    System.out.println("Tabla de simbolos");
-    System.out.println("pos\tid\ttipo\tdir\tvar");
-    for(Symbol s: tablaSimbolos){
-      System.out.println(i+"\t"+s.id+"\t"+s.type+"\t"+s.dir+"\t"+s.var);
-      i++;
-    }
   }
 
 }
