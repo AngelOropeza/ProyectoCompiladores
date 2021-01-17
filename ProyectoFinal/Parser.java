@@ -182,8 +182,17 @@ public class Parser{
   
   //rel_p → < exp | <= exp | >= exp | > exp | ε
   public void rel_p() throws IOException,Exception{
-    if(tokenActual==LT || tokenActual==LET || tokenActual==MET || tokenActual == MT){
-      eat();
+    if(tokenActual==LT){
+      eat(LT);
+      exp();
+    }else if(tokenActual==LET){
+      eat(LET);
+      exp();
+    }else if(tokenActual==MET){
+      eat(MET);
+      exp();
+    }else if(tokenActual==MT){
+      eat(MT);
       exp();
     }
   }
@@ -196,8 +205,12 @@ public class Parser{
   
   //exp_p → + term exp_p | - term exp_p | ε
   public void exp_p() throws IOException,Exception{
-    if(tokenActual==SUMA || tokenActual==RESTA){
-      eat();
+    if(tokenActual==SUMA){
+      eat(SUMAS);
+      term();
+      exp_p();
+    }else if(tokenActual==RESTA){
+      eat(RESTA);
       term();
       exp_p();
     }
