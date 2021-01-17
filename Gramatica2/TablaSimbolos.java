@@ -44,7 +44,7 @@ public class TablaSimbolos{
   }
 
   // obtener los argumento
-  public ArrayList<Integer> getArgs(int id){
+  public ArrayList<Integer> getArgs(String id){
     for (Simbolo s : tabla ) {
       if(s.id.equals(id) && s.var.equals("func")){
         return s.args;

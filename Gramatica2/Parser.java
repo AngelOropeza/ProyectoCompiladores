@@ -90,7 +90,7 @@ public class Parser{
     boolean a = TS.buscar("hola");
     TS.insertar(new Simbolo("a", dir , 0, "var", null));
     int b = TS.getTipo("hola");
-    ArrayList<Integer> c = TS.getArgs(0);
+    ArrayList<Integer> c = TS.getArgs("hola");
     int d = TT.getTam(0);
     int e = TT.getTipoBase(0);
     String f = TT.getNombre(0);
