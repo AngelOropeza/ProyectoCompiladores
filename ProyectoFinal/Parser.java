@@ -102,116 +102,123 @@ public class Parser{
     ANDREA *************************************************
 
   */
-  private void declaraciones() throws IOException,Exception{
-
-  }
-  private void tipo() throws IOException,Exception{
-
-  }
   /*
+
     IVAN *************************************************
+
   */
-
-  private void lista_var() throws IOException,Exception{
-    if(tokenActual==IDENTIFIER){
-      eat(IDENTIFIER);
-      lista_var_p();
-    }else{
-      error("Error sintáctico, se esperaba un identificador");
-    }
-  }
-
-  private void lista_var_p() throws IOException,Exception{
-    if(tokenActual==COMA){
-      eat(COMA);
-      eat(IDENTIFIER);
-      lista_var_p();
-    }
-    // Producción vacía
-  }
-
-  private void funciones() throws IOException,Exception{
-    if(tokenActual==FUNC){
-      eat(FUNC);
-      eat(IDENTIFIER);
-      eat(P1);
-      argumentos();
-      eat(P2);
-      bloque();
-      funciones();
-    }
-    // Producción vacía
-  }
-
-  private void argumentos() throws IOException,Exception{
-    switch(tokenActual){
-      case INT:
-      case FLOAT:
-      case CHAR:
-      case DOUBLE:
-      case VOID:
-        lista_args();
-        break;
-    }
-    // Producción vacía
-  }
-
-  private void lista_args() throws IOException,Exception{
-    switch(tokenActual){
-      case INT:
-      case FLOAT:
-      case CHAR:
-      case DOUBLE:
-      case VOID:
-        tipo();
-        eat(IDENTIFIER);
-        lista_args_p();
-        break;
-      default:
-        error("Error sintáctico, se esperaba un tipo de dato");
-    }
-  }
-
-  private void lista_args_p() throws IOException,Exception{
-    if(tokenActual==COMA){
-      eat(COMA);
-      tipo();
-      eat(IDENTIFIER);
-      lista_args_p();
-    }
-    // producción vacía
-  }
-  
-  private void bloque() throws IOException,Exception{
-    if(tokenActual==L1){
-      eat(L1);
-      declaraciones();
-      instrucciones();
-      eat(L2);
-    }else{
-      error("Error sintáctico, se esperaba {");
-    }
-  }
-
   /*
 
     BRIAN *************************************************
 
   */
-  private void instrucciones() throws IOException,Exception{
-
-  }
-
   /*
 
     ANGEL *************************************************
-
+  bool → comb bool_p
+  bool_p → || comb bool_p | ε 
+  comb → igualdad comb_p 
+  comb_p → && igualdad comb_p | ε
+  igualdad → rel igualdad_p
+  igualdad_p → == rel igualdad_p | != rel igualdad_p | ε
+  rel → exp rel_p
+  rel_p → < exp | <= exp | >= exp | > exp | ε
   */
-  private void bool() throws IOException,Exception{
-
+  
+  // bool -> comb bool_p
+  public void bool() throws IOException,Exception{
+    comb();
+    bool_p();
   }
+  
+  //bool_p → || comb bool_p | ε 
+  public void bool_p() throws IOException,Exception{
+    if(tokenActual==OR){
+      eat(OR);
+      comb();
+      bool_p();
+    }
+  }
+  
+  //comb → igualdad comb_p 
+  public void comb() throws IOException,Exception{
+    igualdad();
+    comb_p();
+  }
+  
+  //comb_p → && igualdad comb_p | ε
+  public void comb_p() throws IOException,Exception{
+    if(tokenActual==AND){
+      eat(AND);
+      igualdad();
+      comb_p();
+    }
+  }
+  
+  //igualdad → rel igualdad_p
+  public void igualdad() throws IOException,Exception{
+    rel();
+    igualdad_p();
+  }
+  
+  //igualdad_p → == rel igualdad_p | != rel igualdad_p | ε
+  public void igualdad_p() throws IOException,Exception{
+    if(tokenActual==IGUAL){
+      eat(IGUAL);
+      rel();
+      igualdad_p();
+    }else if(tokenActual==DESIGUAL){
+      eat(DESIGUAL);
+      rel();
+      igualdad_p();
+    }
+  }
+  
+  //rel → exp rel_p
+  public void rel() throws IOException,Exception{
+    exp();
+    rel_p();
+  }
+  
+  //rel_p → < exp | <= exp | >= exp | > exp | ε
+  public void rel_p() throws IOException,Exception{
+    if(tokenActual==LT){
+      eat(LT);
+      exp();
+    }else if(tokenActual==LET){
+      eat(LET);
+      exp();
+    }else if(tokenActual==MET){
+      eat(MET);
+      exp();
+    }else if(tokenActual==MT){
+      eat(MT);
+      exp();
+    }
+  }
+  
+  //exp → term exp_p
+  public void exp() throws IOException,Exception{
+    term();
+    exp_p();
+  }
+  
+  //exp_p → + term exp_p | - term exp_p | ε
+  public void exp_p() throws IOException,Exception{
+    if(tokenActual==SUMA){
+      eat(SUMAS);
+      term();
+      exp_p();
+    }else if(tokenActual==RESTA){
+      eat(RESTA);
+      term();
+      exp_p();
+    }
+  }
+  
   /*
     LAZARO *************************************************
+
   */
   private void term() throws IOException,Exception{
     unario();
@@ -295,7 +302,7 @@ public class Parser{
         eat(FALSE);
         break;
       default:
-        error("Error sintáctico se esperaba un identificador, int, float o booleano");
+        error("Error de sintaxis");
     }
   }
 
@@ -324,9 +331,8 @@ public class Parser{
     if(tokenActual==IDENTIFIER){
       eat(IDENTIFIER);
       localizacion_p();
-    }else{
-      error("Error de sintaxis, se esperaba un identificador");
     }
+    error("Error de sintaxis, se esperaba un identificador");
   }
 
   private void localizacion_p() throws IOException,Exception{
