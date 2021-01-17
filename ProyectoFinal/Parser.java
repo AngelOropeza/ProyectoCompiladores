@@ -213,13 +213,13 @@ public class Parser{
   */
   
   // bool -> comb bool_p
-  public void bool() throws IOException,Exception{
+  private void bool() throws IOException,Exception{
     comb();
     bool_p();
   }
   
   //bool_p → || comb bool_p | ε 
-  public void bool_p() throws IOException,Exception{
+  private void bool_p() throws IOException,Exception{
     if(tokenActual==OR){
       eat(OR);
       comb();
@@ -228,13 +228,13 @@ public class Parser{
   }
   
   //comb → igualdad comb_p 
-  public void comb() throws IOException,Exception{
+  private void comb() throws IOException,Exception{
     igualdad();
     comb_p();
   }
   
   //comb_p → && igualdad comb_p | ε
-  public void comb_p() throws IOException,Exception{
+  private void comb_p() throws IOException,Exception{
     if(tokenActual==AND){
       eat(AND);
       igualdad();
@@ -243,13 +243,13 @@ public class Parser{
   }
   
   //igualdad → rel igualdad_p
-  public void igualdad() throws IOException,Exception{
+  private void igualdad() throws IOException,Exception{
     rel();
     igualdad_p();
   }
   
   //igualdad_p → == rel igualdad_p | != rel igualdad_p | ε
-  public void igualdad_p() throws IOException,Exception{
+  private void igualdad_p() throws IOException,Exception{
     if(tokenActual==IGUAL){
       eat(IGUAL);
       rel();
@@ -262,13 +262,13 @@ public class Parser{
   }
   
   //rel → exp rel_p
-  public void rel() throws IOException,Exception{
+  private void rel() throws IOException,Exception{
     exp();
     rel_p();
   }
   
   //rel_p → < exp | <= exp | >= exp | > exp | ε
-  public void rel_p() throws IOException,Exception{
+  private void rel_p() throws IOException,Exception{
     if(tokenActual==LT){
       eat(LT);
       exp();
@@ -285,15 +285,15 @@ public class Parser{
   }
   
   //exp → term exp_p
-  public void exp() throws IOException,Exception{
+  private void exp() throws IOException,Exception{
     term();
     exp_p();
   }
   
   //exp_p → + term exp_p | - term exp_p | ε
-  public void exp_p() throws IOException,Exception{
+  private void exp_p() throws IOException,Exception{
     if(tokenActual==SUMA){
-      eat(SUMAS);
+      eat(SUMA);
       term();
       exp_p();
     }else if(tokenActual==RESTA){
