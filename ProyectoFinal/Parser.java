@@ -102,28 +102,116 @@ public class Parser{
     ANDREA *************************************************
 
   */
+  private void declaraciones() throws IOException,Exception{
+
+  }
+  private void tipo() throws IOException,Exception{
+
+  }
   /*
-
     IVAN *************************************************
-
   */
+
+  private void lista_var() throws IOException,Exception{
+    if(tokenActual==IDENTIFIER){
+      eat(IDENTIFIER);
+      lista_var_p();
+    }else{
+      error("Error sintáctico, se esperaba un identificador");
+    }
+  }
+
+  private void lista_var_p() throws IOException,Exception{
+    if(tokenActual==COMA){
+      eat(COMA);
+      eat(IDENTIFIER);
+      lista_var_p();
+    }
+    // Producción vacía
+  }
+
+  private void funciones() throws IOException,Exception{
+    if(tokenActual==FUNC){
+      eat(FUNC);
+      eat(IDENTIFIER);
+      eat(P1);
+      argumentos();
+      eat(P2);
+      bloque();
+      funciones();
+    }
+    // Producción vacía
+  }
+
+  private void argumentos() throws IOException,Exception{
+    switch(tokenActual){
+      case INT:
+      case FLOAT:
+      case CHAR:
+      case DOUBLE:
+      case VOID:
+        lista_args();
+        break;
+    }
+    // Producción vacía
+  }
+
+  private void lista_args() throws IOException,Exception{
+    switch(tokenActual){
+      case INT:
+      case FLOAT:
+      case CHAR:
+      case DOUBLE:
+      case VOID:
+        tipo();
+        eat(IDENTIFIER);
+        lista_args_p();
+        break;
+      default:
+        error("Error sintáctico, se esperaba un tipo de dato");
+    }
+  }
+
+  private void lista_args_p() throws IOException,Exception{
+    if(tokenActual==COMA){
+      eat(COMA);
+      tipo();
+      eat(IDENTIFIER);
+      lista_args_p();
+    }
+    // producción vacía
+  }
+  
+  private void bloque() throws IOException,Exception{
+    if(tokenActual==L1){
+      eat(L1);
+      declaraciones();
+      instrucciones();
+      eat(L2);
+    }else{
+      error("Error sintáctico, se esperaba {");
+    }
+  }
+
   /*
 
     BRIAN *************************************************
 
   */
+  private void instrucciones() throws IOException,Exception{
+
+  }
+
   /*
 
     ANGEL *************************************************
 
   */
-  public void bool() throws IOException,Exception{
+  private void bool() throws IOException,Exception{
 
   }
   /*
-
     LAZARO *************************************************
-
   */
   private void term() throws IOException,Exception{
     unario();
@@ -207,7 +295,7 @@ public class Parser{
         eat(FALSE);
         break;
       default:
-        error("Error de sintaxis");
+        error("Error sintáctico se esperaba un identificador, int, float o booleano");
     }
   }
 
@@ -236,8 +324,9 @@ public class Parser{
     if(tokenActual==IDENTIFIER){
       eat(IDENTIFIER);
       localizacion_p();
+    }else{
+      error("Error de sintaxis, se esperaba un identificador");
     }
-    error("Error de sintaxis, se esperaba un identificador");
   }
 
   private void localizacion_p() throws IOException,Exception{

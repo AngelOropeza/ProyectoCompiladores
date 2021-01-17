@@ -57,6 +57,4 @@ public class TablaTipos{
     }
     return "";
   }
-
-  
 }
