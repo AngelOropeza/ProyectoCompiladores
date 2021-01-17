@@ -12,7 +12,7 @@ public class Cuadrupla{
     this.arg2 = arg2;
     this.res = res;
   }
-
+  
   public toString(){
     return op+" "+arg1+" "+arg2+" "+res;
   }
