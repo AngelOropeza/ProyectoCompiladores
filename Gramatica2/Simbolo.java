@@ -2,22 +2,22 @@
 Autores:      Lázaro Martínez Abraham Josué
               Oropeza Castañeda Ángel Eduardo
 
-Versión:      1.0
-Fecha:        10 de enero de 2021
-Nombre:       lexer.jflex
+Versión:      1.1
+Fecha:        16 de enero de 2021
+Nombre:       Simbolo.java
 */
 import java.util.ArrayList;
 
-public class Symbol{
+public class Simbolo{
   String id;
-  int type;
+  int tipo;
   int dir;
-  int var;
+  String var;
   ArrayList<Integer> args;
 
-  public Symbol(String id, int dir, int type, int var, ArrayList<Integer> args){
+  public Simbolo(String id, int dir, int tipo, String var, ArrayList<Integer> args){
     this.id=id;
-    this.type=type;
+    this.tipo=tipo;
     this.dir=dir;
     this.var=var;
     this.args=args;

@@ -71,8 +71,8 @@ public class Parser{
   private int dir;
 
   // cambiar estos atributos, generar una clase para cada tabla
-  private ArrayList<Symbol> tablaSimbolos;
-  private ArrayList<Type> tablaTipos;
+  private TablaSimbolos TS;
+  private TablaTipos TT;
 
   //CONSTRUCTOR 
   public Parser(Lexer lexer) throws IOException,Exception{
@@ -80,12 +80,21 @@ public class Parser{
     analizadorLexico = lexer;
     dir = 0;
     tokenActual = analizadorLexico.yylex();
-    // llenamos la tabla de tipos
+    TS = new TablaSimbolos();
+    TT = new TablaTipos();
+
   }
 
   // método que inicia
   public void parse() throws IOException,Exception{
-
+    boolean a = TS.buscar("hola");
+    TS.insertar(new Simbolo("a", dir , 0, "var", null));
+    int b = TS.getTipo("hola");
+    ArrayList<Integer> c = TS.getArgs(0);
+    int d = TT.getTam(0);
+    int e = TT.getTipoBase(0);
+    String f = TT.getNombre(0);
+    TT.insertar(new Tipo(5, "array", 16, 4, 0));
   }
 
   /*
@@ -108,17 +117,20 @@ public class Parser{
     ANGEL *************************************************
 
   */
+  public void bool() throws IOException,Exception{
+
+  }
   /*
 
     LAZARO *************************************************
 
   */
-  private void term(){
+  private void term() throws IOException,Exception{
     unario();
     term_p();
   }
 
-  private void term_p(){
+  private void term_p() throws IOException,Exception{
     switch(tokenActual){
       case MULTI:
         eat(MULTI);
@@ -141,7 +153,7 @@ public class Parser{
     }
   }
 
-  private void unario(){
+  private void unario() throws IOException,Exception{
     switch(tokenActual){
       case NEGACION:
         eat(NEGACION);
@@ -156,7 +168,7 @@ public class Parser{
     }
   }
 
-  private void factor(){
+  private void factor() throws IOException,Exception{
     switch(tokenActual){
       //(bool)
       case P1:
@@ -167,14 +179,14 @@ public class Parser{
       //localización
       //id(parametros)
       case IDENTIFIER:
-        id = analizadorLexico.yytext();
+        String id = analizadorLexico.yytext();
         eat(IDENTIFIER);
         if(tokenActual!=P1){
           localizacion();
         }
-        eat(P1)};
+        eat(P1);
         parametros();
-        break:
+        break;
       // número
       case INT_LIT:
         eat(INT_LIT);
@@ -199,19 +211,19 @@ public class Parser{
     }
   }
 
-  private void parametros(){
+  private void parametros() throws IOException,Exception{
     if(tokenActual==OR){
       lista_param();
     }
     // producción vacía
   }
 
-  private void lista_param(){
+  private void lista_param() throws IOException,Exception{
     bool();
     lista_param_p();
   }
 
-  private void lista_param_p(){
+  private void lista_param_p() throws IOException,Exception{
     if(tokenActual==COMA){
       eat(COMA);
       bool();
@@ -220,7 +232,7 @@ public class Parser{
     // producción vacía
   }
 
-  private void localizacion(){
+  private void localizacion() throws IOException,Exception{
     if(tokenActual==IDENTIFIER){
       eat(IDENTIFIER);
       localizacion_p();
@@ -228,7 +240,7 @@ public class Parser{
     error("Error de sintaxis, se esperaba un identificador");
   }
 
-  private void localizacion_p(){
+  private void localizacion_p() throws IOException,Exception{
     if(tokenActual==C1){
       eat(C1);
       bool();
