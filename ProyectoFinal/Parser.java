@@ -1,6 +1,5 @@
 /*
-Autores:      Cabrera Gaytán Jazmín Andrea
-              Camacho Morales Gerardo Iván
+Autores:      Camacho Morales Gerardo Iván
               Nicolas Marin Brian Geovanny
               Lázaro Martínez Abraham Josué
               Oropeza Castañeda Ángel Eduardo
@@ -98,16 +97,71 @@ public class Parser{
   }
 
   /*
-
-    ANDREA *************************************************
+   *************************************************
+  programa → declaraciones funciones 
+  declaraciones → tipo lista_var ; declaraciones | ε 
+  tipo → basico compuesto 
+  basico → int | float | char | double | void 
+  compuesto → [ numero ] compuesto | ε
 
   */
 
-  private void declaraciones() throws IOException,Exception{
-    
+  private void programa() throws IOException,Exception{
+    declaraciones();
+    funciones();
   }
-  private void tipo() throws IOException,Exception{
 
+  private void declaraciones() throws IOException,Exception{
+    switch(tokenActual){
+      case INT:
+      case FLOAT:
+      case CHAR:
+      case DOUBLE:
+      case VOID:
+        tipo();
+        lista_var();
+        eat(PUNTOYCOMA);
+        declaraciones();
+        break;
+      //default:
+        // producción vacía
+    }
+  }
+
+  private void tipo() throws IOException,Exception{
+    basico();
+    compuesto();
+  }
+
+  private void basico() throws IOException,Exception{
+    switch(tokenActual){
+      case INT:
+        eat(INT);
+        break;
+      case FLOAT:
+        eat(FLOAT);
+        break;
+      case CHAR:
+        eat(CHAR);
+        break;
+      case DOUBLE:
+        eat(DOUBLE);
+        break;
+      case VOID:
+        eat(VOID);
+        break;
+      default:
+        error("Error de sintaxis, se esperaba un tipo de dato primitivo");
+    }
+  }
+
+  private void compuesto()  throws IOException,Exception{
+    if(tokenActual==C1){
+      eat(C1);
+      eat(INT_LIT);
+      eat(C2);
+      compuesto();
+    }
   }
 
   /*
@@ -298,9 +352,9 @@ public class Parser{
   }
   
   private void instrucciones_p(){
-      if(tokenActual==OR){
-         sentencia();
-         instrucciones_p();
+    if(tokenActual==OR){
+      sentencia();
+      instrucciones_p();
     }
     // producción vacía
   }
