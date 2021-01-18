@@ -202,7 +202,7 @@ public class Parser{
   }
 
   private void instrucciones_p(){
-    if(tokenActual==OR){
+    if(tokenActual==IF || tokenActual==IDENTIFIER ||tokenActual== WHILE || tokenActual==DO || tokenActual==BREAK || tokenActual==L1 || tokenActual==SWITCH){
       sentencia();
       instrucciones_p();
     }
