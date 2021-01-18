@@ -1,1 +1,19 @@
 int a;
+float b;
+double c;
+char d;
+int[10][5] e,f,g,h;
+
+func A(int a, float b, char c, double d, int[10] e){
+  int a1;
+  float b1;
+  double c1;
+  char d1;
+  int[10][5] e1;
+
+  e1[1] = a+b;
+  if(e1[1] == 14)
+    c=a+b;
+  else
+    c=a-b;
+}

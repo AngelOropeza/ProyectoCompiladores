@@ -86,14 +86,8 @@ public class Parser{
 
   // método que inicia
   public void parse() throws IOException,Exception{
-    boolean a = TS.buscar("hola");
-    TS.insertar(new Simbolo("a", dir , 0, "var", null));
-    int b = TS.getTipo("hola");
-    ArrayList<Integer> c = TS.getArgs("hola");
-    int d = TT.getTam(0);
-    int e = TT.getTipoBase(0);
-    String f = TT.getNombre(0);
-    TT.insertar(new Tipo(5, "array", 16, 4, 0));
+    programa();
+    System.out.println("Cadena aceptada");
   }
 
   /*
@@ -250,12 +244,12 @@ public class Parser{
   /*
     BRIAN *************************************************
   */
-  private void instrucciones(){
+  private void instrucciones() throws IOException,Exception{
     sentencia();
     instrucciones_p();
   }
 
-  private void instrucciones_p(){
+  private void instrucciones_p() throws IOException,Exception{
     if(tokenActual==IF || tokenActual==IDENTIFIER ||tokenActual== WHILE || tokenActual==DO || tokenActual==BREAK || tokenActual==L1 || tokenActual==SWITCH){
       sentencia();
       instrucciones_p();
@@ -263,7 +257,7 @@ public class Parser{
     // producción vacía
   }
 
-  private void sentencia(){
+  private void sentencia() throws IOException,Exception{
     switch(tokenActual){
       case IF:
         eat(IF);
@@ -277,6 +271,7 @@ public class Parser{
         localizacion();
         eat(ASIGNACION);
         bool();
+        eat(PUNTOYCOMA);
         break;
       case WHILE:
         eat(WHILE);
@@ -309,12 +304,12 @@ public class Parser{
         casos();
         eat(L2);
         break;
-      default:
-        error("Error de sintaxis");
+      //default:
+        // producción vacía
     }
   }
 
-  private void condicional(){
+  private void condicional() throws IOException,Exception{
     if(tokenActual == ELSE){
       eat(ELSE);
       sentencia();
@@ -322,7 +317,7 @@ public class Parser{
     //produccion vacia
   }
 
-  private void casos(){
+  private void casos() throws IOException,Exception{
     switch(tokenActual){
       case CASE:
         caso();
@@ -336,113 +331,19 @@ public class Parser{
     }
   }
 
-  private void caso(){
+  private void caso() throws IOException,Exception{
     eat(CASE);
     eat(INT_LIT);
     eat(DOSPUNTOS);
     instrucciones();
   }
 
-  private void predeterminado(){
+  private void predeterminado() throws IOException,Exception{
     eat(DEFAULT);
     eat(DOSPUNTOS);
     instrucciones();
     sentencia();
     instrucciones_p();
-  }
-  
-  private void instrucciones_p(){
-    if(tokenActual==OR){
-      sentencia();
-      instrucciones_p();
-    }
-    // producción vacía
-  }
-  
-  private void sentencia(){
-    switch(tokenActual){
-      case IF:
-        eat(IF);
-        eat(P1);
-        bool();
-        eat(P2);
-        sentencia();
-        condicional();
-        break;
-      case IDENTIFIER:
-        localizacion();
-        eat(ASIGNACION);
-        bool();
-        break;
-      case WHILE:
-        eat(WHILE);
-        eat(P1);
-        bool();
-        eat(P2);
-        sentencia();
-        break;
-      case DO:
-        eat(DO);
-        sentencia();
-        eat(WHILE);
-        eat(P1);
-        bool();
-        eat(P2);
-        break;
-      case BREAK:
-        eat(BREAK);
-        eat(PUNTOYCOMA);
-        break;
-      case L1:
-        bloque();
-        break;
-      case SWITCH:
-        eat(SWITCH);
-        eat(P1);
-        bool();
-        eat(P2);
-        eat(L1);
-        casos();
-        eat(L2);
-        break;
-      default:
-        error("Error de sintaxis");
-    }
-  }
-  
-  private void condicional(){
-    if(tokenActual == ELSE){
-      eat(ELSE);
-      sentencia();
-    }
-    //produccion vacia
-  }
-  
-  private void casos(){
-    switch(tokenActual){
-      case CASE:
-        caso();
-        casos();
-        break;
-      case DEFAULT:
-        predeterminado();
-        break;
-      default:
-        error("Error de sintaxis");
-    }
-  }
-  
-  private void caso(){
-    eat(CASE);
-    eat(INT_LIT);
-    eat(DOSPUNTOS);
-    instrucciones();
-  }
-  
-  private void predeterminado(){
-    eat(DEFAULT);
-    eat(DOSPUNTOS);
-    instrucciones();
   }
 
   /*
@@ -606,13 +507,8 @@ public class Parser{
       //localización
       //id(parametros)
       case IDENTIFIER:
-        String id = analizadorLexico.yytext();
         eat(IDENTIFIER);
-        if(tokenActual!=P1){
-          localizacion();
-        }
-        eat(P1);
-        parametros();
+        factor_p();
         break;
       // número
       case INT_LIT:
@@ -635,6 +531,16 @@ public class Parser{
         break;
       default:
         error("Error de sintaxis");
+    }
+  }
+
+  private void factor_p() throws IOException,Exception{
+    if(tokenActual==P1){
+      eat(P1);
+      parametros();
+      eat(P2);
+    }else{
+      localizacion_p();
     }
   }
 
@@ -663,8 +569,9 @@ public class Parser{
     if(tokenActual==IDENTIFIER){
       eat(IDENTIFIER);
       localizacion_p();
+    }else{
+      error("Error de sintaxis, se esperaba un identificador 1");
     }
-    error("Error de sintaxis, se esperaba un identificador");
   }
 
   private void localizacion_p() throws IOException,Exception{
@@ -687,13 +594,81 @@ public class Parser{
         throw new Exception("Error léxico, línea "+analizadorLexico.getYyline());
       }
     }else{
-      error("Error de sintaxis, se esperaba "+i+" se encontró "+tokenActual);
+      String cadena1=mapear(i);
+      String cadena2=mapear(tokenActual);
+      error("Error de sintaxis, se esperaba "+cadena1+" se encontró "+cadena2);
     }
+  }
+
+  private String mapear(int i){
+    switch(i){
+      case 1: return "int";
+      case 2: return "float";
+      case 3: return "char";
+      case 4: return "double";
+      case 5: return "void";
+      //PALABRAS RESERVADAS
+      case 6: return "func";
+      case 7: return "if";
+      case 8: return "else";
+      case 9: return "while";
+      case 10: return "do";
+      case 11: return "break";
+      case 12: return "switch";
+      case 13: return "case";
+      case 14: return "default";
+      //OPERADORES
+      case 15: return "=";
+      case 16: return "||";
+      case 17: return "&&";
+      case 18: return "==";
+      case 19: return "!=";
+      case 20: return "<";
+      case 21: return "<=";
+      case 22: return ">";
+      case 23: return ">=";
+      case 24: return "+";
+      case 25: return "-";
+      case 26: return "*";
+      case 27: return "/";
+      case 28: return "%";
+      case 29: return "!";
+      //PUNTUACION
+      case 30: return "{";
+      case 31: return "}";
+      case 32: return "[";
+      case 33: return "]";
+      case 34: return "(";
+      case 35: return ")";
+      case 36: return ":";
+      case 37: return ";";
+      case 38: return ",";
+      //LITERALES
+      case 39: return "identificador";
+      case 40: return "STRING_LIT";
+      case 41: return "true";
+      case 42: return "false";
+      case 43: return "INT_LIT";
+      case 44: return "FLOAT_LIT";
+    }
+    return "desconocido";
   }
 
   // Método que muestra la existencia de un error
   private void error(String mensaje) throws Exception{
-    throw new Exception(mensaje+", línea "+analizadorLexico.getYyline()+"\n"+analizadorLexico.linea);
+    throw new Exception(mensaje+", línea "+(analizadorLexico.getYyline()+1)+"\n"+analizadorLexico.linea);
+  }
+
+  // prueba de las clases semanticas
+  public void prueba(){
+    boolean a = TS.buscar("hola");
+    TS.insertar(new Simbolo("a", dir , 0, "var", null));
+    int b = TS.getTipo("hola");
+    ArrayList<Integer> c = TS.getArgs("hola");
+    int d = TT.getTam(0);
+    int e = TT.getTipoBase(0);
+    String f = TT.getNombre(0);
+    TT.insertar(new Tipo(5, "array", 16, 4, 0));
   }
 
 }
