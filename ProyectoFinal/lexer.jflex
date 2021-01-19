@@ -5,8 +5,8 @@ Autores:      Cabrera Gaytán Jazmín Andrea
               Lázaro Martínez Abraham Josué
               Oropeza Castañeda Ángel Eduardo
 
-Versión:      1.0
-Fecha:        10 de enero de 2021
+Versión:      1.1
+Fecha:        18 de enero de 2021
 Nombre:       lexer.jflex
 */
 import java.util.*;
@@ -40,6 +40,7 @@ private static final int BREAK=11;
 private static final int SWITCH=12;
 private static final int CASE=13;
 private static final int DEFAULT=14;
+private static final int RETURN=45;
 //OPERADORES
 private static final int ASIGNACION=15;
 private static final int OR=16;
@@ -111,6 +112,7 @@ BREAK=break
 SWITCH=switch
 CASE=case
 DEFAULT=default
+RETURN=return
 
 //OPERADORES
 ASIGNACION="="
@@ -182,6 +184,7 @@ enter=[\n]
 {SWITCH} {anexar();return SWITCH;}
 {CASE} {anexar();return CASE;}
 {DEFAULT} {anexar();return DEFAULT;}
+{RETURN} {anexar();return RETURN;}
 
 {TRUE} {anexar();return TRUE;}
 {FALSE} {anexar();return TRUE;}

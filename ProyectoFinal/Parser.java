@@ -10,6 +10,7 @@ Nombre:       Parser.java
 */
 
 import java.util.ArrayList;
+import java.util.Stack;
 import java.io.IOException;
 
 public class Parser{
@@ -31,6 +32,7 @@ public class Parser{
   private static final int SWITCH=12;
   private static final int CASE=13;
   private static final int DEFAULT=14;
+  private static final int RETURN=45;
   //OPERADORES
   private static final int ASIGNACION=15;
   private static final int OR=16;
@@ -67,11 +69,16 @@ public class Parser{
   // otros atributos necesarios
   private Lexer analizadorLexico;
   private int tokenActual;
+  private String lexema;
   private int dir;
 
-  // cambiar estos atributos, generar una clase para cada tabla
+  // globales
   private TablaSimbolos TS;
   private TablaTipos TT;
+
+  // pilas
+  private Stack<TablaSimbolos> PilaTS;
+  private Stack<TablaTipos> PilaTT;
 
   //CONSTRUCTOR 
   public Parser(Lexer lexer) throws IOException,Exception{
@@ -79,8 +86,13 @@ public class Parser{
     analizadorLexico = lexer;
     dir = 0;
     tokenActual = analizadorLexico.yylex();
+    lexema = analizadorLexico.yytext();
+
     TS = new TablaSimbolos();
     TT = new TablaTipos();
+
+    PilaTS = new Stack<TablaSimbolos>();
+    PilaTT = new Stack<TablaTipos>();
 
   }
 
@@ -88,6 +100,8 @@ public class Parser{
   public void parse() throws IOException,Exception{
     programa();
     System.out.println("Cadena aceptada");
+    TT.printTT();
+    TS.printTS();
   }
 
   /*
@@ -112,8 +126,8 @@ public class Parser{
       case CHAR:
       case DOUBLE:
       case VOID:
-        tipo();
-        lista_var();
+        int tipoTipo = tipo();
+        lista_var(tipoTipo);
         eat(PUNTOYCOMA);
         declaraciones();
         break;
@@ -122,66 +136,85 @@ public class Parser{
     }
   }
 
-  private void tipo() throws IOException,Exception{
-    basico();
-    compuesto();
+  private int tipo() throws IOException,Exception{
+    int basicoBase = basico();
+    int compuestoTipo = compuesto(basicoBase);
+    return compuestoTipo;
   }
 
-  private void basico() throws IOException,Exception{
+  private int basico() throws IOException,Exception{
     switch(tokenActual){
       case INT:
         eat(INT);
-        break;
+        return 0;
       case FLOAT:
         eat(FLOAT);
-        break;
+        return 1;
       case CHAR:
         eat(CHAR);
-        break;
+        return 2;
       case DOUBLE:
         eat(DOUBLE);
-        break;
+        return 3;
       case VOID:
         eat(VOID);
-        break;
+        return 4;
       default:
         error("Error de sintaxis, se esperaba un tipo de dato primitivo");
     }
+    return -1;
   }
 
-  private void compuesto()  throws IOException,Exception{
+  private int compuesto(int basicoBase)  throws IOException,Exception{
     if(tokenActual==C1){
       eat(C1);
+      String valor = lexema;
       eat(INT_LIT);
       eat(C2);
-      compuesto();
+      int compuesto1Tipo = compuesto(basicoBase);
+      int compuestoTipo = TT.insertar("array", Integer.parseInt(valor), compuesto1Tipo);
+      return compuestoTipo;
     }
+    //producción vacía
+    return basicoBase;
   }
 
   /*
     IVAN *************************************************
   */
-  private void lista_var() throws IOException,Exception{
+  private void lista_var(int tipoTipo) throws IOException,Exception{
     if(tokenActual==IDENTIFIER){
+      if(!TS.buscar(lexema)){
+        TS.insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
+        dir += TT.getTam(tipoTipo);
+      }else{
+        error("Error semántico, el id "+lexema+" ya se encuentra declarado");
+      }
       eat(IDENTIFIER);
-      lista_var_p();
+      lista_var_p(tipoTipo);
     }else{
       error("Error sintáctico, se esperaba un identificador");
     }
   }
 
-  private void lista_var_p() throws IOException,Exception{
+  private void lista_var_p(int tipoTipo) throws IOException,Exception{
     if(tokenActual==COMA){
       eat(COMA);
+      if(!TS.buscar(lexema)){
+        TS.insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
+        dir += TT.getTam(tipoTipo);
+      }else{
+        error("Error semántico, el id "+lexema+" ya se encuentra declarado");
+      }
       eat(IDENTIFIER);
-      lista_var_p();
+      lista_var_p(tipoTipo);
     }
-    // Producción vacía
   }
 
   private void funciones() throws IOException,Exception{
     if(tokenActual==FUNC){
       eat(FUNC);
+      tipo();
       eat(IDENTIFIER);
       eat(P1);
       argumentos();
@@ -250,9 +283,20 @@ public class Parser{
   }
 
   private void instrucciones_p() throws IOException,Exception{
-    if(tokenActual==IF || tokenActual==IDENTIFIER ||tokenActual== WHILE || tokenActual==DO || tokenActual==BREAK || tokenActual==L1 || tokenActual==SWITCH){
-      sentencia();
-      instrucciones_p();
+    switch(tokenActual){
+      case IF:
+      case IDENTIFIER:
+      case WHILE:
+      case DO:
+      case BREAK:
+      case L1:
+      case SWITCH:
+      case RETURN:
+        sentencia();
+        instrucciones_p();
+        break;
+      //default:
+        //producción vacía
     }
     // producción vacía
   }
@@ -304,6 +348,10 @@ public class Parser{
         casos();
         eat(L2);
         break;
+      case RETURN:
+        eat(RETURN);
+        return_p();
+        break;
       //default:
         // producción vacía
     }
@@ -315,6 +363,15 @@ public class Parser{
       sentencia();
     }
     //produccion vacia
+  }
+
+  private void return_p() throws IOException,Exception{
+    if(tokenActual==PUNTOYCOMA){
+      eat(PUNTOYCOMA);
+    }else{
+      exp();
+      eat(PUNTOYCOMA);
+    }
   }
 
   private void casos() throws IOException,Exception{
@@ -589,6 +646,7 @@ public class Parser{
   public void eat(int i) throws IOException,Exception{
     if(tokenActual==i){
       tokenActual = analizadorLexico.yylex();
+      lexema = analizadorLexico.yytext();
       // se revisa que el nuevo token sea un número correcto
       if(tokenActual==-1){
         throw new Exception("Error léxico, línea "+analizadorLexico.getYyline());
@@ -650,6 +708,7 @@ public class Parser{
       case 42: return "false";
       case 43: return "INT_LIT";
       case 44: return "FLOAT_LIT";
+      case 45: return "return";
     }
     return "desconocido";
   }
@@ -668,7 +727,6 @@ public class Parser{
     int d = TT.getTam(0);
     int e = TT.getTipoBase(0);
     String f = TT.getNombre(0);
-    TT.insertar(new Tipo(5, "array", 16, 4, 0));
   }
 
 }

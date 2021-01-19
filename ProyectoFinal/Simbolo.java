@@ -22,4 +22,5 @@ public class Simbolo{
     this.var=var;
     this.args=args;
   }
+  
 }

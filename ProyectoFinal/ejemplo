@@ -4,7 +4,7 @@ double c;
 char d;
 int[10][5] e,f,g,h;
 
-func A(int a, float b, char c, double d, int[10] e){
+func int A(int a, float b, char c, double d, int[10] e){
   int a1;
   float b1;
   double c1;
@@ -16,4 +16,5 @@ func A(int a, float b, char c, double d, int[10] e){
     c=a+b;
   else
     c=a-b;
+  return a1;
 }

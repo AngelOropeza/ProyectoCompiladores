@@ -21,6 +21,7 @@ public class TablaTipos{
     tabla.add(new Tipo(1, "float", 4, -1, -1));
     tabla.add(new Tipo(2, "char", 1, -1, -1));
     tabla.add(new Tipo(3, "double", 8, -1, -1));
+    tabla.add(new Tipo(4, "void", 0, -1, -1));
   }
 
   // Método para obtener el tamaño de un tipo de dato
@@ -44,8 +45,11 @@ public class TablaTipos{
   }
 
   // Método para agregar un nuevo tipo de dato
-  public void insertar(Tipo t){
+  public int insertar(String tipo, int elem, int tipoBase){
+    int tamBase = getTam(tipoBase);
+    Tipo t = new Tipo(tabla.size(),tipo, elem*tamBase, elem, tipoBase);
     tabla.add(t);
+    return tabla.size()-1;
   }
 
   // Obtiene el nombre del tipo
@@ -56,5 +60,13 @@ public class TablaTipos{
       }
     }
     return "";
+  }
+
+  public void printTT(){
+    System.out.println("Tabla de tipos");
+    System.out.println("id\ttipo\ttam\t#e\tTipoBase");
+    for(Tipo t: tabla){
+      System.out.println(t.id+"\t"+t.tipo+"\t"+t.tam+"\t"+t.elem+"\t"+t.tipoBase);
+    }
   }
 }

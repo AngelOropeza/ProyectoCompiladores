@@ -7,8 +7,8 @@ Autores:      Cabrera Gaytán Jazmín Andrea
               Lázaro Martínez Abraham Josué
               Oropeza Castañeda Ángel Eduardo
 
-Versión:      1.0
-Fecha:        10 de enero de 2021
+Versión:      1.1
+Fecha:        18 de enero de 2021
 Nombre:       lexer.jflex
 */
 import java.util.*;
@@ -64,18 +64,18 @@ public class Lexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\12\2\1\4\2\1\1\5"+
+    "\1\0\1\1\1\2\1\3\13\2\1\4\2\1\1\5"+
     "\1\6\1\7\1\10\1\11\1\12\1\13\1\14\1\15"+
     "\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
-    "\3\1\1\26\1\27\2\0\1\30\1\2\1\31\6\2"+
+    "\3\1\1\26\1\27\2\0\1\30\1\2\1\31\7\2"+
     "\1\32\6\2\1\33\1\34\1\35\1\36\1\37\1\40"+
-    "\1\0\1\41\3\0\1\30\1\0\1\42\15\2\1\43"+
-    "\1\2\1\44\1\45\1\46\3\2\1\47\1\50\2\2"+
-    "\1\51\2\2\1\52\1\2\1\53\1\54\1\2\1\55"+
-    "\1\56";
+    "\1\0\1\41\3\0\1\30\1\0\1\42\16\2\1\43"+
+    "\1\2\1\44\1\45\1\46\4\2\1\47\1\50\2\2"+
+    "\1\51\3\2\1\52\1\2\1\53\1\54\1\55\1\2"+
+    "\1\56\1\57";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[106];
+    int [] result = new int[112];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -102,21 +102,21 @@ public class Lexer {
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\63\0\146\0\231\0\314\0\377\0\u0132\0\u0165"+
     "\0\u0198\0\u01cb\0\u01fe\0\u0231\0\u0264\0\u0297\0\u02ca\0\u02fd"+
-    "\0\u0330\0\u0363\0\u0396\0\u03c9\0\63\0\63\0\63\0\63"+
+    "\0\u0330\0\u0363\0\u0396\0\u03c9\0\u03fc\0\63\0\63\0\63"+
     "\0\63\0\63\0\63\0\63\0\63\0\63\0\63\0\63"+
-    "\0\63\0\63\0\u03fc\0\u042f\0\u0462\0\63\0\63\0\u0495"+
-    "\0\u04c8\0\u04fb\0\u052e\0\146\0\u0561\0\u0594\0\u05c7\0\u05fa"+
+    "\0\63\0\63\0\63\0\u042f\0\u0462\0\u0495\0\63\0\63"+
+    "\0\u04c8\0\u04fb\0\u052e\0\u0561\0\146\0\u0594\0\u05c7\0\u05fa"+
     "\0\u062d\0\u0660\0\u0693\0\u06c6\0\u06f9\0\u072c\0\u075f\0\u0792"+
-    "\0\u07c5\0\63\0\63\0\63\0\63\0\63\0\63\0\u03fc"+
-    "\0\63\0\u07f8\0\u042f\0\u082b\0\u085e\0\u0891\0\146\0\u08c4"+
-    "\0\u08f7\0\u092a\0\u095d\0\u0990\0\u09c3\0\u09f6\0\u0a29\0\u0a5c"+
-    "\0\u0a8f\0\u0ac2\0\u0af5\0\u0b28\0\146\0\u0b5b\0\146\0\146"+
-    "\0\146\0\u0b8e\0\u0bc1\0\u0bf4\0\146\0\146\0\u0c27\0\u0c5a"+
-    "\0\146\0\u0c8d\0\u0cc0\0\146\0\u0cf3\0\146\0\146\0\u0d26"+
-    "\0\146\0\146";
+    "\0\u07c5\0\u07f8\0\u082b\0\63\0\63\0\63\0\63\0\63"+
+    "\0\63\0\u042f\0\63\0\u085e\0\u0462\0\u0891\0\u08c4\0\u08f7"+
+    "\0\146\0\u092a\0\u095d\0\u0990\0\u09c3\0\u09f6\0\u0a29\0\u0a5c"+
+    "\0\u0a8f\0\u0ac2\0\u0af5\0\u0b28\0\u0b5b\0\u0b8e\0\u0bc1\0\146"+
+    "\0\u0bf4\0\146\0\146\0\146\0\u0c27\0\u0c5a\0\u0c8d\0\u0cc0"+
+    "\0\146\0\146\0\u0cf3\0\u0d26\0\146\0\u0d59\0\u0d8c\0\u0dbf"+
+    "\0\146\0\u0df2\0\146\0\146\0\146\0\u0e25\0\146\0\146";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[106];
+    int [] result = new int[112];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -140,59 +140,63 @@ public class Lexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\5\1\3\1\6\1\7\3\3"+
-    "\1\10\2\3\1\11\1\3\1\12\1\13\1\14\1\15"+
-    "\1\16\1\3\1\17\1\20\1\21\1\22\1\23\1\24"+
+    "\1\10\1\3\1\11\1\12\1\3\1\13\1\14\1\15"+
+    "\1\16\1\17\1\3\1\20\1\21\1\22\1\23\1\24"+
     "\1\25\1\26\1\27\1\30\1\31\1\32\1\33\1\34"+
-    "\1\35\1\36\1\37\1\40\1\41\1\42\1\43\1\2"+
-    "\1\44\3\3\1\45\1\46\1\47\65\0\24\3\27\0"+
-    "\3\3\6\0\1\4\15\0\1\50\34\0\1\51\1\50"+
-    "\1\52\4\0\3\3\1\53\1\3\1\54\16\3\27\0"+
-    "\3\3\5\0\13\3\1\55\10\3\27\0\3\3\5\0"+
-    "\6\3\1\56\1\3\1\57\4\3\1\60\6\3\27\0"+
-    "\3\3\5\0\10\3\1\61\1\3\1\62\11\3\27\0"+
-    "\3\3\5\0\7\3\1\63\7\3\1\64\4\3\27\0"+
-    "\3\3\5\0\13\3\1\65\10\3\27\0\3\3\5\0"+
-    "\6\3\1\66\15\3\27\0\3\3\5\0\7\3\1\67"+
-    "\14\3\27\0\3\3\5\0\22\3\1\70\1\3\27\0"+
-    "\3\3\5\0\12\3\1\71\11\3\27\0\3\3\31\0"+
-    "\1\72\63\0\1\73\63\0\1\74\60\0\1\75\62\0"+
-    "\1\76\62\0\1\77\35\0\51\100\1\101\1\102\10\100"+
-    "\52\103\1\104\1\101\7\103\2\0\1\52\62\0\1\105"+
-    "\30\0\2\106\30\0\1\4\62\0\1\52\15\0\1\50"+
-    "\35\0\1\50\5\0\4\3\1\107\17\3\27\0\3\3"+
-    "\5\0\15\3\1\110\6\3\27\0\3\3\5\0\7\3"+
-    "\1\111\14\3\27\0\3\3\5\0\6\3\1\112\15\3"+
-    "\27\0\3\3\5\0\3\3\1\113\20\3\27\0\3\3"+
-    "\5\0\21\3\1\114\2\3\27\0\3\3\5\0\10\3"+
-    "\1\115\13\3\27\0\3\3\5\0\15\3\1\116\6\3"+
-    "\27\0\3\3\5\0\5\3\1\117\16\3\27\0\3\3"+
-    "\5\0\17\3\1\120\4\3\27\0\3\3\5\0\21\3"+
-    "\1\121\2\3\27\0\3\3\5\0\2\3\1\122\21\3"+
-    "\27\0\3\3\5\0\2\3\1\123\21\3\27\0\3\3"+
-    "\5\0\2\3\1\124\21\3\27\0\3\3\10\0\1\100"+
-    "\11\0\1\100\32\0\4\100\12\0\1\103\11\0\1\103"+
-    "\32\0\4\103\10\0\1\105\52\0\1\106\7\0\1\105"+
-    "\61\0\17\3\1\125\4\3\27\0\3\3\5\0\10\3"+
-    "\1\126\13\3\27\0\3\3\5\0\21\3\1\110\2\3"+
-    "\27\0\3\3\5\0\11\3\1\127\12\3\27\0\3\3"+
-    "\5\0\17\3\1\130\4\3\27\0\3\3\5\0\13\3"+
-    "\1\131\10\3\27\0\3\3\5\0\16\3\1\132\5\3"+
-    "\27\0\3\3\5\0\10\3\1\133\13\3\27\0\3\3"+
-    "\5\0\10\3\1\134\13\3\27\0\3\3\5\0\17\3"+
-    "\1\135\4\3\27\0\3\3\5\0\14\3\1\136\7\3"+
-    "\27\0\3\3\5\0\4\3\1\137\17\3\27\0\3\3"+
-    "\5\0\6\3\1\140\15\3\27\0\3\3\5\0\4\3"+
-    "\1\141\17\3\27\0\3\3\5\0\6\3\1\142\15\3"+
-    "\27\0\3\3\5\0\15\3\1\143\6\3\27\0\3\3"+
-    "\5\0\23\3\1\144\27\0\3\3\5\0\11\3\1\145"+
-    "\12\3\27\0\3\3\5\0\17\3\1\146\4\3\27\0"+
-    "\3\3\5\0\17\3\1\147\4\3\27\0\3\3\5\0"+
-    "\6\3\1\150\15\3\27\0\3\3\5\0\12\3\1\151"+
-    "\11\3\27\0\3\3\5\0\4\3\1\152\17\3\27\0"+
-    "\3\3\4\0";
+    "\1\35\1\36\1\37\1\40\1\41\1\42\1\43\1\44"+
+    "\1\2\1\45\3\3\1\46\1\47\1\50\65\0\24\3"+
+    "\27\0\3\3\6\0\1\4\15\0\1\51\34\0\1\52"+
+    "\1\51\1\53\4\0\3\3\1\54\1\3\1\55\16\3"+
+    "\27\0\3\3\5\0\13\3\1\56\10\3\27\0\3\3"+
+    "\5\0\6\3\1\57\1\3\1\60\4\3\1\61\6\3"+
+    "\27\0\3\3\5\0\10\3\1\62\1\3\1\63\11\3"+
+    "\27\0\3\3\5\0\17\3\1\64\4\3\27\0\3\3"+
+    "\5\0\7\3\1\65\7\3\1\66\4\3\27\0\3\3"+
+    "\5\0\13\3\1\67\10\3\27\0\3\3\5\0\6\3"+
+    "\1\70\15\3\27\0\3\3\5\0\7\3\1\71\14\3"+
+    "\27\0\3\3\5\0\22\3\1\72\1\3\27\0\3\3"+
+    "\5\0\12\3\1\73\11\3\27\0\3\3\31\0\1\74"+
+    "\63\0\1\75\63\0\1\76\60\0\1\77\62\0\1\100"+
+    "\62\0\1\101\35\0\51\102\1\103\1\104\10\102\52\105"+
+    "\1\106\1\103\7\105\2\0\1\53\62\0\1\107\30\0"+
+    "\2\110\30\0\1\4\62\0\1\53\15\0\1\51\35\0"+
+    "\1\51\5\0\4\3\1\111\17\3\27\0\3\3\5\0"+
+    "\15\3\1\112\6\3\27\0\3\3\5\0\7\3\1\113"+
+    "\14\3\27\0\3\3\5\0\6\3\1\114\15\3\27\0"+
+    "\3\3\5\0\3\3\1\115\20\3\27\0\3\3\5\0"+
+    "\21\3\1\116\2\3\27\0\3\3\5\0\10\3\1\117"+
+    "\13\3\27\0\3\3\5\0\4\3\1\120\17\3\27\0"+
+    "\3\3\5\0\15\3\1\121\6\3\27\0\3\3\5\0"+
+    "\5\3\1\122\16\3\27\0\3\3\5\0\17\3\1\123"+
+    "\4\3\27\0\3\3\5\0\21\3\1\124\2\3\27\0"+
+    "\3\3\5\0\2\3\1\125\21\3\27\0\3\3\5\0"+
+    "\2\3\1\126\21\3\27\0\3\3\5\0\2\3\1\127"+
+    "\21\3\27\0\3\3\10\0\1\102\11\0\1\102\32\0"+
+    "\4\102\12\0\1\105\11\0\1\105\32\0\4\105\10\0"+
+    "\1\107\52\0\1\110\7\0\1\107\61\0\17\3\1\130"+
+    "\4\3\27\0\3\3\5\0\10\3\1\131\13\3\27\0"+
+    "\3\3\5\0\21\3\1\112\2\3\27\0\3\3\5\0"+
+    "\11\3\1\132\12\3\27\0\3\3\5\0\17\3\1\133"+
+    "\4\3\27\0\3\3\5\0\13\3\1\134\10\3\27\0"+
+    "\3\3\5\0\15\3\1\135\6\3\27\0\3\3\5\0"+
+    "\16\3\1\136\5\3\27\0\3\3\5\0\10\3\1\137"+
+    "\13\3\27\0\3\3\5\0\10\3\1\140\13\3\27\0"+
+    "\3\3\5\0\17\3\1\141\4\3\27\0\3\3\5\0"+
+    "\14\3\1\142\7\3\27\0\3\3\5\0\4\3\1\143"+
+    "\17\3\27\0\3\3\5\0\6\3\1\144\15\3\27\0"+
+    "\3\3\5\0\4\3\1\145\17\3\27\0\3\3\5\0"+
+    "\13\3\1\146\10\3\27\0\3\3\5\0\6\3\1\147"+
+    "\15\3\27\0\3\3\5\0\15\3\1\150\6\3\27\0"+
+    "\3\3\5\0\23\3\1\151\27\0\3\3\5\0\11\3"+
+    "\1\152\12\3\27\0\3\3\5\0\17\3\1\153\4\3"+
+    "\27\0\3\3\5\0\3\3\1\154\20\3\27\0\3\3"+
+    "\5\0\17\3\1\155\4\3\27\0\3\3\5\0\6\3"+
+    "\1\156\15\3\27\0\3\3\5\0\12\3\1\157\11\3"+
+    "\27\0\3\3\5\0\4\3\1\160\17\3\27\0\3\3"+
+    "\4\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[3417];
+    int [] result = new int[3672];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -230,11 +234,11 @@ public class Lexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\22\1\16\11\3\1\2\11\2\0\20\1"+
-    "\6\11\1\0\1\11\3\0\1\1\1\0\44\1";
+    "\1\0\1\11\23\1\16\11\3\1\2\11\2\0\21\1"+
+    "\6\11\1\0\1\11\3\0\1\1\1\0\50\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[106];
+    int [] result = new int[112];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -328,6 +332,7 @@ private static final int BREAK=11;
 private static final int SWITCH=12;
 private static final int CASE=13;
 private static final int DEFAULT=14;
+private static final int RETURN=45;
 //OPERADORES
 private static final int ASIGNACION=15;
 private static final int OR=16;
@@ -748,187 +753,191 @@ public void limpiar(){
           case 1: 
             { anexar();return -1;
             }
-          case 47: break;
+          case 48: break;
           case 2: 
             { anexar();return IDENTIFIER;
             }
-          case 48: break;
+          case 49: break;
           case 3: 
             { anexar();return INT_LIT;
             }
-          case 49: break;
+          case 50: break;
           case 4: 
             { anexar();return ASIGNACION;
             }
-          case 50: break;
+          case 51: break;
           case 5: 
             { anexar();return NEGACION;
             }
-          case 51: break;
+          case 52: break;
           case 6: 
             { anexar();return LT;
             }
-          case 52: break;
+          case 53: break;
           case 7: 
             { anexar();return MT;
             }
-          case 53: break;
+          case 54: break;
           case 8: 
             { anexar();return SUMA;
             }
-          case 54: break;
+          case 55: break;
           case 9: 
             { anexar();return RESTA;
             }
-          case 55: break;
+          case 56: break;
           case 10: 
             { anexar();return MULTI;
             }
-          case 56: break;
+          case 57: break;
           case 11: 
             { anexar();return DIVISION;
             }
-          case 57: break;
+          case 58: break;
           case 12: 
             { anexar();return MODULO;
             }
-          case 58: break;
+          case 59: break;
           case 13: 
             { anexar();return L1;
             }
-          case 59: break;
+          case 60: break;
           case 14: 
             { anexar();return L2;
             }
-          case 60: break;
+          case 61: break;
           case 15: 
             { anexar();return C1;
             }
-          case 61: break;
+          case 62: break;
           case 16: 
             { anexar();return C2;
             }
-          case 62: break;
+          case 63: break;
           case 17: 
             { anexar();return P1;
             }
-          case 63: break;
+          case 64: break;
           case 18: 
             { anexar();return P2;
             }
-          case 64: break;
+          case 65: break;
           case 19: 
             { anexar();return DOSPUNTOS;
             }
-          case 65: break;
+          case 66: break;
           case 20: 
             { anexar();return PUNTOYCOMA;
             }
-          case 66: break;
+          case 67: break;
           case 21: 
             { anexar();return COMA;
             }
-          case 67: break;
+          case 68: break;
           case 22: 
             { /*No se hace nada*/
             }
-          case 68: break;
+          case 69: break;
           case 23: 
             { limpiar();
             }
-          case 69: break;
+          case 70: break;
           case 24: 
             { anexar();return FLOAT_LIT;
             }
-          case 70: break;
+          case 71: break;
           case 25: 
             { anexar();return IF;
             }
-          case 71: break;
+          case 72: break;
           case 26: 
             { anexar();return DO;
             }
-          case 72: break;
+          case 73: break;
           case 27: 
             { anexar();return IGUAL;
             }
-          case 73: break;
+          case 74: break;
           case 28: 
             { anexar();return OR;
             }
-          case 74: break;
+          case 75: break;
           case 29: 
             { anexar();return AND;
             }
-          case 75: break;
+          case 76: break;
           case 30: 
             { anexar();return DESIGUAL;
             }
-          case 76: break;
+          case 77: break;
           case 31: 
             { anexar();return LET;
             }
-          case 77: break;
+          case 78: break;
           case 32: 
             { anexar();return MET;
             }
-          case 78: break;
+          case 79: break;
           case 33: 
             { anexar();return STRING_LIT;
             }
-          case 79: break;
+          case 80: break;
           case 34: 
             { anexar();return INT;
             }
-          case 80: break;
+          case 81: break;
           case 35: 
             { anexar();return TRUE;
             }
-          case 81: break;
+          case 82: break;
           case 36: 
             { anexar();return FUNC;
             }
-          case 82: break;
+          case 83: break;
           case 37: 
             { anexar();return CASE;
             }
-          case 83: break;
+          case 84: break;
           case 38: 
             { anexar();return CHAR;
             }
-          case 84: break;
+          case 85: break;
           case 39: 
             { anexar();return ELSE;
             }
-          case 85: break;
+          case 86: break;
           case 40: 
             { anexar();return VOID;
             }
-          case 86: break;
+          case 87: break;
           case 41: 
             { anexar();return FLOAT;
             }
-          case 87: break;
+          case 88: break;
           case 42: 
             { anexar();return BREAK;
             }
-          case 88: break;
+          case 89: break;
           case 43: 
             { anexar();return WHILE;
             }
-          case 89: break;
-          case 44: 
-            { anexar();return DOUBLE;
-            }
           case 90: break;
-          case 45: 
-            { anexar();return SWITCH;
+          case 44: 
+            { anexar();return RETURN;
             }
           case 91: break;
-          case 46: 
-            { anexar();return DEFAULT;
+          case 45: 
+            { anexar();return DOUBLE;
             }
           case 92: break;
+          case 46: 
+            { anexar();return SWITCH;
+            }
+          case 93: break;
+          case 47: 
+            { anexar();return DEFAULT;
+            }
+          case 94: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

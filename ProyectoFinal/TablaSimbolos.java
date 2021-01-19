@@ -53,5 +53,15 @@ public class TablaSimbolos{
     return null;
   }
 
+  // imprime la tabla de simbolos
+  public void printTS(){
+    int i=0;
+    System.out.println("Tabla de simbolos");
+    System.out.println("pos\tid\ttipo\tdir\tvar");
+    for(Simbolo s: tabla){
+      System.out.println(i+"\t"+s.id+"\t"+s.tipo+"\t"+s.dir+"\t"+s.var);
+      i++;
+    }
+  }
 
 }
