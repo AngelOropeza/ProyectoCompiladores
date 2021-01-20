@@ -72,13 +72,11 @@ public class Parser{
   private String lexema;
   private int dir;
 
-  // globales
-  private TablaSimbolos TS;
-  private TablaTipos TT;
-
   // pilas
   private Stack<TablaSimbolos> PilaTS;
   private Stack<TablaTipos> PilaTT;
+
+  private Stack<Integer> PilaDir;
 
   //CONSTRUCTOR 
   public Parser(Lexer lexer) throws IOException,Exception{
@@ -88,11 +86,9 @@ public class Parser{
     tokenActual = analizadorLexico.yylex();
     lexema = analizadorLexico.yytext();
 
-    TS = new TablaSimbolos();
-    TT = new TablaTipos();
-
     PilaTS = new Stack<TablaSimbolos>();
     PilaTT = new Stack<TablaTipos>();
+    PilaDir = new Stack<Integer>();
 
   }
 
@@ -100,8 +96,8 @@ public class Parser{
   public void parse() throws IOException,Exception{
     programa();
     System.out.println("Cadena aceptada");
-    TT.printTT();
-    TS.printTS();
+    PilaTT.peek().printTT();
+    PilaTS.peek().printTS();
   }
 
   /*
@@ -115,6 +111,8 @@ public class Parser{
   */
 
   private void programa() throws IOException,Exception{
+    PilaTS.push(new TablaSimbolos());
+    PilaTT.push(new TablaTipos());
     declaraciones();
     funciones();
   }
@@ -172,7 +170,7 @@ public class Parser{
       eat(INT_LIT);
       eat(C2);
       int compuesto1Tipo = compuesto(basicoBase);
-      int compuestoTipo = TT.insertar("array", Integer.parseInt(valor), compuesto1Tipo);
+      int compuestoTipo = PilaTT.peek().insertar("array", Integer.parseInt(valor), compuesto1Tipo);
       return compuestoTipo;
     }
     //producción vacía
@@ -184,9 +182,9 @@ public class Parser{
   */
   private void lista_var(int tipoTipo) throws IOException,Exception{
     if(tokenActual==IDENTIFIER){
-      if(!TS.buscar(lexema)){
-        TS.insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
-        dir += TT.getTam(tipoTipo);
+      if(!PilaTS.peek().buscar(lexema)){
+        PilaTS.peek().insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
+        dir += PilaTT.peek().getTam(tipoTipo);
       }else{
         error("Error semántico, el id "+lexema+" ya se encuentra declarado");
       }
@@ -200,9 +198,9 @@ public class Parser{
   private void lista_var_p(int tipoTipo) throws IOException,Exception{
     if(tokenActual==COMA){
       eat(COMA);
-      if(!TS.buscar(lexema)){
-        TS.insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
-        dir += TT.getTam(tipoTipo);
+      if(!PilaTS.peek().buscar(lexema)){
+        PilaTS.peek().insertar(new Simbolo(lexema,dir,tipoTipo,"var",null));
+        dir += PilaTT.peek().getTam(tipoTipo);
       }else{
         error("Error semántico, el id "+lexema+" ya se encuentra declarado");
       }
@@ -213,6 +211,10 @@ public class Parser{
 
   private void funciones() throws IOException,Exception{
     if(tokenActual==FUNC){
+      PilaTS.push(new TablaSimbolos());
+      PilaTT.push(new TablaTipos());
+      PilaDir.push(dir);
+      dir = 0;
       eat(FUNC);
       tipo();
       eat(IDENTIFIER);
@@ -220,6 +222,11 @@ public class Parser{
       argumentos();
       eat(P2);
       bloque();
+      PilaTT.peek().printTT();
+      PilaTS.peek().printTS();
+      PilaTS.pop();
+      PilaTT.pop();
+      dir = PilaDir.pop();
       funciones();
     }
     // Producción vacía
@@ -716,17 +723,6 @@ public class Parser{
   // Método que muestra la existencia de un error
   private void error(String mensaje) throws Exception{
     throw new Exception(mensaje+", línea "+(analizadorLexico.getYyline()+1)+"\n"+analizadorLexico.linea);
-  }
-
-  // prueba de las clases semanticas
-  public void prueba(){
-    boolean a = TS.buscar("hola");
-    TS.insertar(new Simbolo("a", dir , 0, "var", null));
-    int b = TS.getTipo("hola");
-    ArrayList<Integer> c = TS.getArgs("hola");
-    int d = TT.getTam(0);
-    int e = TT.getTipoBase(0);
-    String f = TT.getNombre(0);
   }
 
 }
