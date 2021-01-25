@@ -495,21 +495,96 @@ public class Parser{
   }
   
   //exp → term exp_p
-  private void exp() throws IOException,Exception{
-    term();
-    exp_p();
+  private ArrayList<String> exp(String expVddr, String expFls) throws IOException,Exception{
+    Arraylist<String> atributosRet = new ArrayList<String>();
+    ArrayList<String> termAtributos =term();
+    ArrayList<String> exp_pAtributos = exp_p();
+    int termTipo = Integer.parseInt(termAtributos.get(0));
+    String termDir = termAtributos.get(1);
+    int exp_pTipo = Integer.parseInt(exp_pTipo.get(0));
+    String exp_pDir = exp_pAtributos.get(1);
+    String exp_pOp = exp_pAtributos.get(2);
+    if Semantico.equivalentes(exp_pTipo, termTipo){
+        int expTipo;
+        String expDir;
+        if(exp_pTipo != -1){
+            expTipo = Semantico.maximo(exp_pTipo, termTipo);
+            expDir = Semantico.nuevaTemporal();
+            d1 = Semantico.maximo(exp_pDir, exp_pTipo, expTipo);
+            d2 = Semantico.maximo(termDir, termTipo, expTipo);
+            codigo.genCod(new Cuadrupla(exp_pOp, d1, d2, expDir));
+        }else{
+            expTipo = termTipo;
+            expDir = termDir;
+        }
+        atributosRet.add(Integer.toString(expTipo));
+        atributosRet.add(expDir);
+        return atributosRet;
+    }else{
+        System.out.println("Error: tipos incompatibles");
+    }
   }
   
   //exp_p → + term exp_p | - term exp_p | ε
   private void exp_p() throws IOException,Exception{
     if(tokenActual==SUMA){
-      eat(SUMA);
-      term();
-      exp_p();
+        eat(SUMA);
+        ArrayList<String> termAtributos = term();
+        ArrayList<String> exp_pAtributos = exp_p();
+        Arraylist<String> atributosRet = new ArrayList<String>();
+        int termTipo = Integer.parseInt(termAtributos.get(0));
+        String termDir = termAtributos.get(1);
+        int exp_pTipo = Integer.parseInt(exp_pTipo.get(0));
+        String exp_pDir = exp_pAtributos.get(1);
+        String exp_pOp = "+";
+        if Semantico.equivalentes(exp_pTipo, termTipo){
+            int expTipo;
+            String expDir;
+            if(exp_pTipo != -1){
+                expTipo = Semantico.maximo(exp_pTipo, termTipo);
+                expDir = Semantico.nuevaTemporal();
+                d1 = Semantico.maximo(exp_pDir, exp_pTipo, expTipo);
+                d2 = Semantico.maximo(termDir, termTipo, expTipo);
+                codigo.genCod(new Cuadrupla(exp_pOp, d1, d2, expDir));
+            }else{
+                expTipo = termTipo;
+                expDir = termDir;
+            }
+            atributosRet.add(Integer.toString(expTipo));
+            atributosRet.add(expDir);
+            return atributosRet;
+        }else{
+            System.out.println("Error: tipos incompatibles");
+        }
     }else if(tokenActual==RESTA){
-      eat(RESTA);
-      term();
-      exp_p();
+        eat(RESTA);
+        ArrayList<String> termAtributos = term();
+        ArrayList<String> exp_pAtributos = exp_p();
+        Arraylist<String> atributosRet = new ArrayList<String>();
+        int termTipo = Integer.parseInt(termAtributos.get(0));
+        String termDir = termAtributos.get(1);
+        int exp_pTipo = Integer.parseInt(exp_pTipo.get(0));
+        String exp_pDir = exp_pAtributos.get(1);
+        String exp_pOp = "-";
+        if Semantico.equivalentes(exp_pTipo, termTipo){
+            int expTipo;
+            String expDir;
+            if(exp_pTipo != -1){
+                expTipo = Semantico.maximo(exp_pTipo, termTipo);
+                expDir = Semantico.nuevaTemporal();
+                d1 = Semantico.maximo(exp_pDir, exp_pTipo, expTipo);
+                d2 = Semantico.maximo(termDir, termTipo, expTipo);
+                codigo.genCod(new Cuadrupla(exp_pOp, d1, d2, expDir));
+            }else{
+                expTipo = termTipo;
+                expDir = termDir;
+            }
+            atributosRet.add(Integer.toString(expTipo));
+            atributosRet.add(expDir);
+            return atributosRet;
+        }else{
+            System.out.println("Error: tipos incompatibles");
+        }
     }
   }
   
